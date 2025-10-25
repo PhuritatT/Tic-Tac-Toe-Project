@@ -115,7 +115,10 @@ docker compose up --build
 
 #### 1.1 New Game Flow
 ```
-ผู้เล่นเข้าหน้าเว็บ → เลือกขนาดกระดาน → เลือกคู่แข่ง (Human/Bot) → เลือกสัญลักษณ์ (X/O)
+ผู้เล่นเข้าหน้าเว็บ 
+→ เลือกขนาดกระดาน 
+→ เลือกคู่แข่ง (Human/Bot) 
+→ เลือกสัญลักษณ์ (X/O)
 → กด Start [API: POST /api/start]
 → Backend สร้าง session ใหม่ → บันทึกลง game_sessions table
 → ส่ง sessionId + board state กลับมา → แสดงกระดานเกม
