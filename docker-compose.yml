@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: xo_db
+    environment:
+      POSTGRES_USER: myuser       
+      POSTGRES_PASSWORD: mypassword 
+      POSTGRES_DB: xo_game_db      
+    ports:
+      - "5432:5432" 
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - game-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d xo_game_db"]
+      interval: 5s   
+      timeout: 5s    
+      retries: 5   
+
+  backend:
+    container_name: xo_backend
+    build:
+      context: ./backend 
+    ports:
+      - "8080:8080" 
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/xo_game_db
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update 
+    networks:
+      - game-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    container_name: xo_frontend
+    build:
+      context: ./frontend 
+    ports:
+      - "3000:80" 
+    networks:
+      - game-network
+    depends_on:
+      - backend 
+
+networks:
+  game-network:
+    driver: bridge
+volumes:
+  db-data:
