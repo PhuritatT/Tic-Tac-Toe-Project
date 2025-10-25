@@ -62,7 +62,7 @@
 #### Step 1: Navigate to Project
 ```bash
 # Go to project folder
-cd "Tic Tac Toe Project"
+cd "Tic-Tac-Toe-Project"
 
 # Make sure you have docker-compose.yml, backend/, frontend/
 ```
